@@ -1,0 +1,327 @@
+<html><head>
+<link rel="icon" href="logo.ico">
+<meta name="description" content="Anti-Hile Resmi Web Sitesi">
+<title>Anti-Hile</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="index.css" rel="stylesheet" type="text/css">
+</head><body>
+<script type="text/javascript">
+  setTimeout(function(){loadXMLDoc("?ilk=");document.getElementById("freewha").parentNode.removeChild(document.getElementById("freewha"));}, 1000);
+  function timeConverter(UNIX_timestamp){
+    var a = new Date(UNIX_timestamp * 1000);
+    var year = a.getFullYear();
+    var month = ikibasamakli(a.getMonth() + 1);
+    var date = ikibasamakli(a.getDate());
+    var hour = ikibasamakli(a.getHours());
+    var min = ikibasamakli(a.getMinutes());
+    var sec = ikibasamakli(a.getSeconds());
+    var time = date + '.' + month + '.' + year + ' ' + hour + ':' + min;
+    return time;
+  }
+  function ikibasamakli(deger){
+    return (deger.toString().length == 2 ? deger : "0" + deger);
+  }
+  function divolustur(oyuncuismi,durum,sunucu,version,zaman){
+    var dogrulayici = document.createAttribute("uuid");
+    dogrulayici.value = oyuncuismi + ":" + durum + ":" + sunucu + ":" + version + ":" + zaman;
+    var anacolon = document.createElement("div");
+    anacolon.setAttributeNode(dogrulayici);
+    anacolon.className = "col-md-12";
+    var tarihcolon = document.createElement("div");
+    tarihcolon.className = "col-md-2";
+    var tarih = document.createElement("div");
+    tarih.className = "alert alert-dismissable alert-info log-box";
+    tarih.innerHTML = "<strong>" + timeConverter(zaman) +"</strong>";
+    var bilgicolon = document.createElement("div");
+    bilgicolon.className = "col-md-10";
+    var bilgi = document.createElement("div");
+    if(durum == 1){
+      bilgi.className = "alert alert-dismissable alert-success log-box";
+      bilgi.innerHTML = "<strong>"+ oyuncuismi +" </strong>Adlı Oyuncu "+ sunucu +" için "+ version +" Adlı Clientini Doğruladı !";
+    }else{
+      bilgi.className = "alert alert-dismissable alert-danger log-box";
+      bilgi.innerHTML = "<strong>"+ oyuncuismi +" </strong>Adlı Oyuncu "+ sunucu +" için "+ version +" Adlı Hacked Clientini Doğrulamaya Çalıştı !";
+    }
+    bilgicolon.appendChild(bilgi);
+    tarihcolon.appendChild(tarih);
+    anacolon.appendChild(tarihcolon);
+    anacolon.appendChild(bilgicolon);
+    return anacolon;
+  }
+  function divekle(div){
+    var log = document.getElementById("log");
+    var logchildren = log.children;
+    for(var c=0;c<logchildren.length;c++){
+      if(div.getAttribute("uuid") == logchildren[c].getAttribute("uuid")){
+        return;
+      }
+    }
+    var tempdir = document.createElement("div");
+    log.appendChild(tempdir);
+    if(logchildren.length > 1){
+      for(var x=logchildren.length-1;0<x;x--){
+        log.replaceChild(logchildren[x-1].cloneNode(true),logchildren[x]);
+      }
+    }
+    log.replaceChild(div,logchildren[0]);
+    while(logchildren.length > 5){
+      log.removeChild(log.children[log.children.length-1]);
+    }
+  }
+  function loadXMLDoc(deger) {
+    var xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+       if (xmlhttp.status == 200) {
+         var cevap = JSON.parse(xmlhttp.responseText);
+         var gecikme = 0;
+         for(var x=cevap.length-1;x>=0;x--){
+          gecikme += 1000;
+          console.log(gecikme);
+          var veri = cevap[x];
+          divekle(divolustur(veri['nick'],veri['durum'],veri['sunucu'],veri['version'],veri['zaman']));
+        }
+      }
+      setTimeout(function(){loadXMLDoc("");}, 10000);
+    }
+  };
+
+  xmlhttp.open("GET", "log.php" + deger, true);
+  xmlhttp.send();
+}
+</script>
+<div class="cover baslik">
+  <div class="cover-image" style="background-image : url('./img/img2.jpg')"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h1>Anti-Hile</h1>
+        <p>Minecraft için Hilesiz Bir Oyun Keyfi...</p>
+        <a class="btn btn-lg btn-default"><i class="fa fa-2x fa-arrow-circle-down fa-fw text-danger"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center text-danger">Anti-Hile Son Versiyon Durumları</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 text-center">
+        <h1 class="text-warning">Anti-Hile Server Side</h1>
+      </div>
+      <div class="col-md-6">
+        <div class="alert alert-dismissable alert-info">
+          <h1 class="text-center">
+            <strong>V</strong>0.1</h1>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h1 class="text-center text-success">Anti-Hile Client Side</h1>
+        </div>
+        <div class="col-md-6">
+          <div class="alert alert-dismissable alert-info">
+            <h1 class="text-center">
+              <strong>V</strong>0.2</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h1 class="text-danger">Suan Anti-Hileyi Kullanan Sunucular
+              <br>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <img src="./img/img3.jpg" class="img-responsive">
+          </div>
+          <div class="col-md-6">
+            <h1 class="text-primary">Anadolu Network</h1>
+            <h3 class="text-success">Minecraft Sürümü:&nbsp;
+              <br>1.8 - 1.8.9</h3>
+              <p>
+                <b>Sunucuda Birçok Yeni Nesil MiniGames Ve Faction Bulunmaktadir.
+                  <br>Ayrıca Anti-Hile Beta Denemeleri Bu Sunucuda Yapılmaktadır.</b>
+                </p>
+                <b>
+                  <h3 class="text-center text-danger">Sunucu Adresi</h3>
+                  <h3 class="text-center text-warning">oyna.anadolumc.net</h3>
+                </b>
+              </div>
+              <b></b>
+            </div>
+            <b></b>
+          </div>
+          <b></b>
+        </div>
+        <b>
+          <div class="section">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <h1 class="text-center text-danger">Güncelleme Günlügü</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <img src="http://i.hizliresim.com/pE8jyn.jpg" class="img-responsive">
+                </div>
+                <div class="col-md-6">
+                  <h1 class="text-center">Anti-Hile Client Side</h1>
+                  <h3 class="text-left text-warning">Version 0.2</h3>
+                  <ul class="list-group text-center">
+                    <li class="list-group-item list-group-item-info">
+                      <b>Java JRE 1.7 Sürümünde Yeniden Build Edildi.</b>
+                    </li>
+                    <li class="list-group-item list-group-item-info">
+                      <b>Hata Açıklamaları Düzeltildi.</b>
+                    </li>
+                  </ul>
+                  <p></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <img src="http://i.hizliresim.com/pE8jyn.jpg" class="img-responsive">
+                </div>
+                <div class="col-md-6">
+                  <h1 class="text-center">Anti-Hile Server Side</h1>
+                  <h3 class="text-warning">Version 0.1</h3>
+                  <ul class="list-group text-center">
+                    <li class="list-group-item list-group-item-info">
+                      <b>ServerSide-ClientSide Bağlantısında İyileştirmeler.</b>
+                    </li>
+                  </ul>
+                  <p></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <img src="http://i.hizliresim.com/pE8jyn.jpg" class="img-responsive">
+                </div>
+                <div class="col-md-6">
+                  <h1 class="text-center">Anti-Hile Client Side</h1>
+                  <h3 class="text-warning">Version 0.1</h3>
+                  <ul class="list-group text-center text-info">
+                    <li class="list-group-item list-group-item-info">
+                      <b>Açıklamalardakı Satır Boşluğu Hatası Giderildi.</b>
+                    </li>
+                    <li class="list-group-item list-group-item-info">
+                      <b>Şifreleme Algoritması Geliştirildi.</b>
+                    </li>
+                    <li class="list-group-item list-group-item-info">
+                      <b>Türkçe Karakter Sorunu Düzeltildi.</b>
+                    </li>
+                  </ul>
+                  <p></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <h1 class="text-center">Gelistirici Ekip</h1>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <img src="https://mc-heads.net/avatar/be80635e-7593-48f3-ab59-fdbe14e7cbb8/300.png" class="center-block img-responsive">
+                  <h3 class="text-center">Whomobile</h3>
+                  <p class="text-center">Developer</p>
+                </div>
+                <div class="col-md-6">
+                  <img src="https://mc-heads.net/avatar/46eddb12-c2ca-4ff6-b668-dae21df77922/300.png" class="center-block img-responsive">
+                  <h3 class="text-center">Mentalrob</h3>
+                  <p class="text-center">Developer</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </b><div class="section">
+        <div class="background-image" style="background-image : url('./img/img4.jpg')"></div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="text-center text-primary">Anti-Hiledeki En Son 5 Aktivite</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row" id="log"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><footer class="section section-success">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <h1>Anti-Hile</h1>
+            <p>Zevk Dolu Bir Oyun İçin.</p>
+          </div>
+          <div class="col-sm-6">
+            <p class="text-info text-right">
+              <br>
+              <br>
+            </p>
+            <div class="row">
+              <div class="col-md-12 hidden-lg hidden-md hidden-sm text-left">
+                <a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 hidden-xs text-right">
+                <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+  </body></html>
